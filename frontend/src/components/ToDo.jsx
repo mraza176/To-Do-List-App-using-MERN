@@ -9,7 +9,7 @@ const ToDo = () => {
 
   useEffect(() => {
     const getItemsFromDB = async () => {
-      let list = await axios.get("http://localhost:5000/get");
+      let list = await axios.get(`${import.meta.env.VITE_SERVER_URL}/get`);
       setItems(list.data);
     };
     getItemsFromDB();
@@ -28,7 +28,7 @@ const ToDo = () => {
     if (inputData) {
       setItems([...items, inputData]);
       setInputData("");
-      fetch("http://localhost:5000/create", {
+      fetch(`${import.meta.env.VITE_SERVER_URL}/create`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name: inputData }),
@@ -46,7 +46,7 @@ const ToDo = () => {
 
   const handleUpdate = (e) => {
     e.preventDefault();
-    fetch(`http://localhost:5000/update/${updateItem}`, {
+    fetch(`${import.meta.env.VITE_SERVER_URL}/update/${updateItem}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name: inputData }),
@@ -56,7 +56,7 @@ const ToDo = () => {
   };
 
   const deleteItem = (pos) => {
-    fetch(`http://localhost:5000/delete/${items[pos]}`, {
+    fetch(`${import.meta.env.VITE_SERVER_URL}/delete/${items[pos]}`, {
       method: "DELETE",
     });
     const updatedItems = items.filter((elem, index) => {
@@ -70,7 +70,7 @@ const ToDo = () => {
       alert("Please add some tasks first!!!");
       return;
     }
-    fetch("http://localhost:5000/deleteAll", {
+    fetch(`${import.meta.env.VITE_SERVER_URL}/deleteAll`, {
       method: "DELETE",
     });
     setItems([]);
